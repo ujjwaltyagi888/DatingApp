@@ -1,2 +1,2 @@
 # DatingApp
-Full functional dating app
+Fully functional dating app
