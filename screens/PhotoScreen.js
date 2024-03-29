@@ -6,6 +6,8 @@ import {
   Image,
   Pressable,
   TextInput,
+  Button,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +22,20 @@ const PhotoScreen = () => {
   const navigation = useNavigation("");
   const [imageUrls, setImageUrls] = useState(["", "", "", "", "", ""]);
   const [imageUrl, setImageUrl] = useState();
+
+  const handleNext = () => {
+    navigation.navigate("Prompts");
+  };
+
+  const handleAddImage = () => {
+    const index = imageUrls.findIndex((url) => url == "");
+    if (index != -1) {
+      const updatedUrls = [...imageUrls];
+      updatedUrls[index] = imageUrl;
+      setImageUrls(updatedUrls);
+      setImageUrl("");
+    }
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ marginTop: 90, marginHorizontal: 20 }}>
@@ -147,17 +163,46 @@ const PhotoScreen = () => {
             Add 4 to 6 photos
           </Text>
         </View>
-        <View>
+        <View style={{ marginTop: 25 }}>
           <Text>Add a picture of yourself</Text>
-          <View>
-            <EvilIcons style={{marginLeft: 8}} name="image" size={22} color="black" />
-            <TextInput value={imageUrl} 
-              onChangeText={text =>setImageUrl(text)}
-              style= {{color:"gray",marginVertical:10,width:300}}
-              placeholder="Enter your imae"
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 5,
+              paddingVertical: 5,
+              borderRadius: 5,
+              marginTop: 10,
+              backgroundColor: "#DCDCDC",
+            }}
+          >
+            <EvilIcons
+              style={{ marginLeft: 8 }}
+              name="image"
+              size={22}
+              color="black"
+            />
+            <TextInput
+              value={imageUrl}
+              onChangeText={(text) => setImageUrl(text)}
+              style={{ color: "gray", marginVertical: 10, width: 300 }}
+              placeholder="Enter your image url"
             />
           </View>
+          <Button onPress={handleAddImage} title="Add Image" />
         </View>
+        <TouchableOpacity
+          onPress={handleNext}
+          activeOpacity={0.8}
+          style={{ marginTop: 30, marginLeft: "auto" }}
+        >
+          <MaterialCommunityIcons
+            style={{ alignSelf: "center", marginTop: 20 }}
+            name="arrow-right-circle"
+            size={45}
+            color="#581845"
+          />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
